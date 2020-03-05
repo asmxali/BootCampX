@@ -6,7 +6,7 @@ const pool = new Pool({
   host: "localhost",
   database: "bootcampx"
 });
-
+const values = [`${arg}`];
 pool
   .query(
     `
@@ -26,9 +26,9 @@ pool
 SELECT students.id, students.name, cohorts.id
 FROM students
 JOIN cohorts ON cohorts.id = cohort_id
-WHERE cohorts.name LIKE '${arg}'
+WHERE cohorts.name LIKE $1
 LIMIT 2;
-`
+`, values
   )
   .then(res => {
     res.rows.forEach(user => {

@@ -6,6 +6,7 @@ const pool = new Pool({
   host: "localhost",
   database: "bootcampx"
 });
+const values = [`${arg}`];
 
 pool
   .query(
@@ -15,10 +16,10 @@ pool
     JOIN teachers ON teachers.id = teacher_id
     JOIN students ON students.id = student_id
     JOIN cohorts ON cohorts.id = cohort_id
-    WHERE cohorts.name = '${arg}'
+    WHERE cohorts.name = $1
     GROUP BY teacher, cohort
     ORDER BY teacher
-`
+`, values
   )
   .then(res => {
     res.rows.forEach(user => {
